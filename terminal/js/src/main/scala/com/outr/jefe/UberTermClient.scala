@@ -14,7 +14,7 @@ object UberTermClient extends UberTermApplication with ClientApplication {
     scribe.info("Client loaded!")
 
     ui.init()
-    ui.title := "JEFE Console"
+    ui.title := "UberTerm"
     ui.backgroundColor := colorScheme().base3
   }
 }
