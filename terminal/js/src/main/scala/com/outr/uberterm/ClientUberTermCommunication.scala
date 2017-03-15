@@ -1,0 +1,3 @@
+package com.outr.uberterm
+
+trait ClientUberTermCommunication extends UberTermCommunication

@@ -1,7 +1,9 @@
 package com.outr.uberterm
 
 import io.youi.hypertext.{Container, TextInput}
-import io.youi.{Color, ui}
+import io.youi.{Color, Key, ui}
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object InputBar extends Container {
   backgroundColor := UberTermClient.colorScheme.base1
@@ -22,5 +24,22 @@ object InputBar extends Container {
   input.font.family := "sans-serif"
   input.backgroundColor := Color.Clear
   input.border.width := Some(0.0)
+  input.event.key.up.attach { evt =>
+    val key = Key.byCode(evt.keyCode)
+    if (key.contains(Key.Enter) || key.contains(Key.Return)) {
+      evt.preventDefault()
+      evt.stopPropagation()
+      sendCommand()
+    }
+  }
   children += input
+
+  def sendCommand(): Unit = if (input.value().nonEmpty) {
+    val command = input.value()
+    UberTermClient.communication(UberTermClient.connection).executeCommand(command).map { response =>
+      val result = new SimpleCommandResult(command, response.output)
+      UberTermClient.results.children += result
+      input.value := ""
+    }
+  }
 }

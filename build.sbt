@@ -26,7 +26,6 @@ lazy val api = crossProject.in(file("api"))
       "io.youi" %%% "youi-app" % youiVersion
     )
   )
-
 lazy val apiJVM = api.jvm
 lazy val apiJS = api.js
 
@@ -39,11 +38,14 @@ lazy val terminal = crossProject.in(file("terminal"))
     crossTarget in fullOptJS := baseDirectory.value / ".." / "jvm" / "src" / "main" / "resources" / "app"
   )
   .jvmSettings(
+    fork := true,
     libraryDependencies ++= Seq(
       "io.youi" %% "youi-server-undertow" % youiVersion
-    )
+    ),
+    libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-compiler" % _),
+    libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-library" % _),
+    libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-reflect" % _)
   )
   .dependsOn(api)
-
 lazy val terminalJVM = terminal.jvm
 lazy val terminalJS = terminal.js
