@@ -15,8 +15,18 @@ class ScalaInterpreter {
   object eval {
     def apply(code: String): Any = {
       returnValue.remove()
-      i.interpret(s"returnValue.asInstanceOf[ThreadLocal[Any]].set($code)")
-      returnValue.get()
+      i.interpret(
+        s"""
+          |try {
+          |  returnValue.asInstanceOf[ThreadLocal[Any]].set($code)
+          |} catch {
+          |  case t: Throwable => returnValue.asInstanceOf[ThreadLocal[Any]].set(t)
+          |}
+        """.stripMargin)
+      returnValue.get() match {
+        case t: Throwable => throw t
+        case v => v
+      }
     }
     def typed[T](code: String): T = apply(code).asInstanceOf[T]
   }

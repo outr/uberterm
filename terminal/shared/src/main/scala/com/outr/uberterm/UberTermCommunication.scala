@@ -8,4 +8,4 @@ trait UberTermCommunication extends Communication {
   @server def executeCommand(command: String): Future[CommandResult]
 }
 
-case class CommandResult(output: String)
+case class CommandResult(output: String, error: Boolean)

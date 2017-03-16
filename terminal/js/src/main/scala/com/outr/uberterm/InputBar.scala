@@ -37,9 +37,11 @@ object InputBar extends Container {
   def sendCommand(): Unit = if (input.value().nonEmpty) {
     val command = input.value()
     UberTermClient.communication(UberTermClient.connection).executeCommand(command).map { response =>
-      val result = new SimpleCommandResult(command, response.output)
+      val result = new SimpleCommandResult(command, response.output, response.error)
       UberTermClient.results.children += result
       input.value := ""
     }
+  } else {
+    scribe.info("No value!")
   }
 }

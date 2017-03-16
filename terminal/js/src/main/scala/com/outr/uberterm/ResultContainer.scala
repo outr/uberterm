@@ -1,5 +1,6 @@
 package com.outr.uberterm
 
+import com.outr.uberterm
 import io.youi._
 import io.youi.hypertext.{Container, Label}
 import io.youi.hypertext.border.BorderStyle
@@ -12,7 +13,7 @@ class ResultContainer extends Container {
   border.style := Some(BorderStyle.Solid)
 }
 
-class SimpleCommandResult(command: String, result: String) extends ResultContainer {
+class SimpleCommandResult(command: String, result: String, error: Boolean) extends ResultContainer {
   val commandHeading = new Label {
     text := "Command:"
     color := UberTermClient.colorScheme.blue
@@ -25,7 +26,7 @@ class SimpleCommandResult(command: String, result: String) extends ResultContain
 
   val resultHeading = new Label {
     text := "Result:"
-    color := UberTermClient.colorScheme.blue
+    color := (if (error) UberTermClient.colorScheme.red else UberTermClient.colorScheme.blue)
     font.size := 20.0
     font.family := "sans-serif"
 
