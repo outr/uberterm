@@ -29,9 +29,30 @@ lazy val api = crossProject.in(file("api"))
 lazy val apiJVM = api.jvm
 lazy val apiJS = api.js
 
+lazy val fileModule = crossProject.in(file("module/file"))
+  .settings(
+    name := "uberterm-module-file"
+  )
+  .dependsOn(api)
+lazy val fileModuleJVM = fileModule.jvm
+lazy val fileModuleJS = fileModule.js
+
 lazy val terminal = crossProject.in(file("terminal"))
   .settings(
     name := "uberterm"
+  )
+  .jvmSettings(
+    libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-compiler" % _),
+    libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-library" % _),
+    libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-reflect" % _)
+  )
+  .dependsOn(api)
+lazy val terminalJVM = terminal.jvm
+lazy val terminalJS = terminal.js
+
+lazy val example = crossProject.in(file("example"))
+  .settings(
+    name := "uberterm-example"
   )
   .jsSettings(
     crossTarget in fastOptJS := baseDirectory.value / ".." / "jvm" / "src" / "main" / "resources" / "app",
@@ -41,11 +62,8 @@ lazy val terminal = crossProject.in(file("terminal"))
     fork := true,
     libraryDependencies ++= Seq(
       "io.youi" %% "youi-server-undertow" % youiVersion
-    ),
-    libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-compiler" % _),
-    libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-library" % _),
-    libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-reflect" % _)
+    )
   )
-  .dependsOn(api)
-lazy val terminalJVM = terminal.jvm
-lazy val terminalJS = terminal.js
+  .dependsOn(terminal, fileModule)
+lazy val exampleJVM = example.jvm
+lazy val exampleJS = example.js

@@ -6,7 +6,7 @@ import io.youi.{Color, Key, ui}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object InputBar extends Container {
-  backgroundColor := UberTermClient.colorScheme.base1
+  backgroundColor := ColorScheme.base1
 
   size.width := ui.size.width - 10.0
   size.height := 40.0
@@ -19,7 +19,7 @@ object InputBar extends Container {
   input.size.width := size.width - 15.0
   input.position.center := size.center
   input.position.middle := size.middle
-  input.color := UberTermClient.colorScheme.white
+  input.color := ColorScheme.white
   input.font.size := 24.0
   input.font.family := "sans-serif"
   input.backgroundColor := Color.Clear
@@ -36,9 +36,9 @@ object InputBar extends Container {
 
   def sendCommand(): Unit = if (input.value().nonEmpty) {
     val command = input.value()
-    UberTermClient.communication(UberTermClient.connection).executeCommand(command).map { response =>
+    ClientUberTermCommunication().executeCommand(command).map { response =>
       val result = new SimpleCommandResult(command, response.output, response.error)
-      UberTermClient.results.children += result
+      UberTermScreen.results.children += result
       input.value := ""
     }
   } else {

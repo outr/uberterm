@@ -1,7 +1,5 @@
 package com.outr.uberterm
 
-import com.outr.uberterm
-import io.youi._
 import io.youi.hypertext.{Container, Label}
 import io.youi.hypertext.border.BorderStyle
 import reactify._
@@ -9,14 +7,14 @@ import reactify._
 class ResultContainer extends Container {
   border.radius := 5.0
   border.width := Some(2.0)
-  border.color := Some(UberTermClient.colorScheme.base1)
+  border.color := Some(ColorScheme.base1)
   border.style := Some(BorderStyle.Solid)
 }
 
 class SimpleCommandResult(command: String, result: String, error: Boolean) extends ResultContainer {
   val commandHeading = new Label {
     text := "Command:"
-    color := UberTermClient.colorScheme.blue
+    color := ColorScheme.blue
     font.size := 20.0
     font.family := "sans-serif"
 
@@ -26,7 +24,7 @@ class SimpleCommandResult(command: String, result: String, error: Boolean) exten
 
   val resultHeading = new Label {
     text := "Result:"
-    color := (if (error) UberTermClient.colorScheme.red else UberTermClient.colorScheme.blue)
+    color := (if (error) ColorScheme.red else ColorScheme.blue)
     font.size := 20.0
     font.family := "sans-serif"
 
@@ -36,7 +34,7 @@ class SimpleCommandResult(command: String, result: String, error: Boolean) exten
 
   val commandLabel = new Label {
     text := command
-    color := UberTermClient.colorScheme.white
+    color := ColorScheme.white
     font.size := 18.0
     font.family := "fixed"
 
@@ -45,7 +43,7 @@ class SimpleCommandResult(command: String, result: String, error: Boolean) exten
   }
   val resultLabel = new Label {
     text := result
-    color := UberTermClient.colorScheme.white
+    color := ColorScheme.white
     font.size := 18.0
     font.family := "fixed"
 

@@ -1,12 +1,12 @@
-package com.outr.uberterm
+package com.outr.uberterm.example
 
 import java.io.File
 
 import io.youi.app.SinglePageApplication
-import io.youi.http._
+import io.youi.http.{Content, combined, path}
 import io.youi.server.UndertowServer
 
-class UberTermServer(override val templateDirectory: File) extends UndertowServer with SinglePageApplication with UberTermApplication {
+class UberTermExampleServer(override val templateDirectory: File) extends UndertowServer with SinglePageApplication with UberTermExampleApplication {
   override protected val appJSContent: Content = Content.classPath("app/uberterm-fastopt.js")
   override protected val appJSMethod: String = "application"
 
@@ -14,9 +14,9 @@ class UberTermServer(override val templateDirectory: File) extends UndertowServe
   handler.file(templateDirectory)
 }
 
-object UberTermServer {
+object UberTermExampleServer {
   def main(args: Array[String]): Unit = {
-    val server = new UberTermServer(new File("../../content"))
+    val server = new UberTermExampleServer(new File("../../content"))
     server.start()
   }
 }
