@@ -11,7 +11,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 trait ClientFileModule extends FileModule {
   override def displayFiles(directory: String, fileNames: List[String]): Future[Unit] = Future {
-    scribe.info(s"Display files! $directory, fileNames: $fileNames")
     UberTerm.addResult := new ListResults(directory, fileNames)
   }
 }
