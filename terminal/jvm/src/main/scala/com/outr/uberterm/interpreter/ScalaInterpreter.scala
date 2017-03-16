@@ -1,7 +1,7 @@
 package com.outr.uberterm.interpreter
 
 import scala.tools.nsc.Settings
-import scala.tools.nsc.interpreter.IMain
+import scala.tools.nsc.interpreter.{IMain, NamedParam}
 
 class ScalaInterpreter {
   private val returnValue = new ThreadLocal[Any]
@@ -30,4 +30,6 @@ class ScalaInterpreter {
     }
     def typed[T](code: String): T = apply(code).asInstanceOf[T]
   }
+
+  def bind(name: String, value: Any): Unit = i.bind(NamedParam.clazz(name, value))
 }

@@ -7,7 +7,7 @@ import io.youi.http.{Content, combined, path}
 import io.youi.server.UndertowServer
 
 class UberTermExampleServer(override val templateDirectory: File) extends UndertowServer with SinglePageApplication with UberTermExampleApplication {
-  override protected val appJSContent: Content = Content.classPath("app/uberterm-fastopt.js")
+  override protected val appJSContent: Content = Content.classPath("app/uberterm-example-fastopt.js")
   override protected val appJSMethod: String = "application"
 
   handler.matcher(combined.any(path.exact("/"), path.exact("/index.html"))).htmlPage()

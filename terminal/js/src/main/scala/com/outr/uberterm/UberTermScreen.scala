@@ -22,6 +22,9 @@ object UberTermScreen extends Screen {
 
   override protected def load(): Future[Unit] = super.load().map { _ =>
     scribe.info("Client loaded!")
+    UberTerm.addResult.attach { result =>
+      results.children += result
+    }
 
     document.body.style.overflow = "hidden"
     document.body.style.margin = "0"

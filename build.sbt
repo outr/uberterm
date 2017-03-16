@@ -42,9 +42,9 @@ lazy val terminal = crossProject.in(file("terminal"))
     name := "uberterm"
   )
   .jvmSettings(
-    libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-compiler" % _),
-    libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-library" % _),
-    libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-reflect" % _)
+    libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+    libraryDependencies += "org.scala-lang" % "scala-library" % scalaVersion.value,
+    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
   )
   .dependsOn(api)
 lazy val terminalJVM = terminal.jvm

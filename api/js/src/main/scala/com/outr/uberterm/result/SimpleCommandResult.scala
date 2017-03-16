@@ -1,15 +1,8 @@
-package com.outr.uberterm
+package com.outr.uberterm.result
 
-import io.youi.hypertext.{Container, Label}
-import io.youi.hypertext.border.BorderStyle
+import com.outr.uberterm.ColorScheme
+import io.youi.hypertext.Label
 import reactify._
-
-class ResultContainer extends Container {
-  border.radius := 5.0
-  border.width := Some(2.0)
-  border.color := Some(ColorScheme.base1)
-  border.style := Some(BorderStyle.Solid)
-}
 
 class SimpleCommandResult(command: String, result: String, error: Boolean) extends ResultContainer {
   val commandHeading = new Label {

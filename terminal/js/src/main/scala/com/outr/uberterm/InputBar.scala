@@ -1,5 +1,6 @@
 package com.outr.uberterm
 
+import com.outr.uberterm.result.SimpleCommandResult
 import io.youi.hypertext.{Container, TextInput}
 import io.youi.{Color, Key, ui}
 
@@ -36,9 +37,14 @@ object InputBar extends Container {
 
   def sendCommand(): Unit = if (input.value().nonEmpty) {
     val command = input.value()
-    ClientUberTermCommunication().executeCommand(command).map { response =>
-      val result = new SimpleCommandResult(command, response.output, response.error)
-      UberTermScreen.results.children += result
+    ClientUberTermCommunication().executeCommand(command).foreach { response =>
+      response.output match {
+        case Some(output) => {
+          val result = new SimpleCommandResult(command, output, response.error)
+          UberTermScreen.results.children += result
+        }
+        case None => // Will be handled by the implementation
+      }
       input.value := ""
     }
   } else {
