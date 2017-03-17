@@ -1,4 +1,5 @@
 package com.outr.uberterm
+
 import com.outr.uberterm.interpreter.ScalaInterpreter
 
 import scala.concurrent.Future
@@ -9,16 +10,25 @@ trait ServerUberTermCommunication extends UberTermCommunication {
 
   private var commands = Map.empty[String, () => Unit]
 
-  registerCommand("help", () => showHelp(UberTermModule.all().map(m => ModuleHelp(m.prefix, m.name, m.description))))
+  registerCommand("help", () => showHelp(UberTermModule.all().map(m => ModuleInfo(m.prefix, m.name, m.description))))
   UberTermModule.all.foreach { module =>
-    interpreter.bind(module.prefix, module)
+    registerModule(module)
   }
   UberTermModule.registered.attach { module =>
-    interpreter.bind(module.prefix, module)
+    registerModule(module)
   }
 
   def registerCommand(name: String, function: () => Unit): Unit = synchronized {
     commands += name -> function
+  }
+
+  def registerModule(module: UberTermModule): Unit = synchronized {
+    interpreter.bind(module.prefix, module)
+    registerCommand(s"${module.prefix}.help", () => moduleHelp(module))
+  }
+
+  private def moduleHelp(module: UberTermModule): Unit = {
+    showModuleHelp(module.help())
   }
 
   override def executeCommand(command: String): Future[CommandResult] = Future {

@@ -1,5 +1,7 @@
 package com.outr.uberterm.interpreter
 
+import scala.reflect.ClassTag
+import scala.reflect.runtime.{universe => ru}
 import scala.tools.nsc.Settings
 import scala.tools.nsc.interpreter.{IMain, NamedParam}
 
@@ -31,5 +33,6 @@ class ScalaInterpreter {
     def typed[T](code: String): T = apply(code).asInstanceOf[T]
   }
 
-  def bind(name: String, value: Any): Unit = i.bind(NamedParam.clazz(name, value))
+//  def bind(name: String, value: Any): Unit = i.bind(NamedParam.clazz(name, value))
+  def bind[T: ru.TypeTag : ClassTag](name: String, value: T): Unit = i.bind(name, value)
 }

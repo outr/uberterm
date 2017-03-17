@@ -11,8 +11,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 trait ClientUberTermCommunication extends UberTermCommunication {
   ClientUberTermCommunication.instance = this
 
-  override def showHelp(modules: Set[ModuleHelp]): Future[Unit] = Future {
+  override def showHelp(modules: Set[ModuleInfo]): Future[Unit] = Future {
     UberTerm.addResult := new HelpResult(modules)
+  }
+
+  override def showModuleHelp(module: ModuleHelp): Future[Unit] = Future {
+    scribe.info(s"show module help: $module")
   }
 }
 
@@ -22,7 +26,7 @@ object ClientUberTermCommunication {
   def apply(): ClientUberTermCommunication = instance
 }
 
-class HelpResult(modules: Set[ModuleHelp]) extends ResultContainer {
+class HelpResult(modules: Set[ModuleInfo]) extends ResultContainer {
   layoutManager := Some(new VerticalBoxLayout(5.0))
 
   children += new Label {
