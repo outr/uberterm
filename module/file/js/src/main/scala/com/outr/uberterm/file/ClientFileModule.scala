@@ -2,20 +2,26 @@ package com.outr.uberterm.file
 
 import com.outr.uberterm.{ColorScheme, UberTerm}
 import com.outr.uberterm.result.ResultContainer
-import io.youi.hypertext.Label
-import io.youi.layout.VerticalBoxLayout
+import io.youi.hypertext.{Container, Label}
+import io.youi.layout.{FlowLayout, VerticalBoxLayout}
 import reactify._
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 trait ClientFileModule extends FileModule {
-  override def displayFiles(directory: String, fileNames: List[String]): Future[Unit] = Future {
-    UberTerm.addResult := new ListResults(directory, fileNames)
+  override def displayFiles(directory: String, directoryNames: List[String], fileNames: List[String]): Future[Unit] = Future {
+    UberTerm.addResult := new FileListResults(directory, directoryNames, fileNames)
+  }
+
+  override def updateFiles(directory: String, directoryNames: List[String], fileNames: List[String]): Future[Unit] = {
+    val container = UberTerm.current().get.asInstanceOf[FileListResults]
+    container.removeFromParent()
+    displayFiles(directory, directoryNames, fileNames)
   }
 }
 
-class ListResults(heading: String, items: List[String]) extends ResultContainer {
+class FileListResults(heading: String, directoryNames: List[String], fileNames: List[String]) extends ResultContainer {
   layoutManager := Some(new VerticalBoxLayout(5.0))
 
   val headingLabel = new Label {
@@ -27,18 +33,28 @@ class ListResults(heading: String, items: List[String]) extends ResultContainer 
   }
   children += headingLabel
 
-  var bottom: State[Double] = headingLabel.position.bottom
+  children += new Container {
+    layoutManager := Some(new FlowLayout(10.0, 10.0, 15.0, 15.0))
+    size.width := FileListResults.this.size.width - 10.0
 
-  items.foreach { item =>
-    children += new Label {
-      text := item
-      font.size := 24.0
-      font.family := "sans-serif"
-      color := ColorScheme.white
-      position.left := 10.0
-      bottom = position.bottom
+    directoryNames.foreach { item =>
+      children += new Label {
+        text := item
+        font.size := 24.0
+        font.family := "sans-serif"
+        color := ColorScheme.yellow
+        position.left := 10.0
+      }
+    }
+
+    fileNames.foreach { item =>
+      children += new Label {
+        text := item
+        font.size := 24.0
+        font.family := "sans-serif"
+        color := ColorScheme.white
+        position.left := 10.0
+      }
     }
   }
-
-  size.height := bottom + 10.0
 }

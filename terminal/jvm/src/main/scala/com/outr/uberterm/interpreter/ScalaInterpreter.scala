@@ -33,6 +33,6 @@ class ScalaInterpreter {
     def typed[T](code: String): T = apply(code).asInstanceOf[T]
   }
 
-//  def bind(name: String, value: Any): Unit = i.bind(NamedParam.clazz(name, value))
-  def bind[T: ru.TypeTag : ClassTag](name: String, value: T): Unit = i.bind(name, value)
+  def bind(name: String, value: Any): Unit = i.bind(NamedParam.clazz(name, value))
+//  def bind[T: ru.TypeTag : ClassTag](name: String, value: T): Unit = i.bind(name, value)
 }

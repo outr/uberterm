@@ -10,5 +10,6 @@ trait FileModule extends UberTermModule {
   override def name: String = "File Support"
   override def description: String = "Functionality for working with files on the file system."
 
-  @client def displayFiles(directory: String, fileNames: List[String]): Future[Unit]
+  @client def displayFiles(directory: String, directoryNames: List[String], fileNames: List[String]): Future[Unit]
+  @client def updateFiles(directory: String, directoryNames: List[String], fileNames: List[String]): Future[Unit]
 }
