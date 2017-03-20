@@ -13,7 +13,7 @@ trait UberTermModule extends Communication {
 
   UberTermModule.register(this)
 
-  private[uberterm] def help(): ModuleHelp = {
+  /*private[uberterm] def help(): ModuleHelp = {
     val mirror = ru.runtimeMirror(getClass.getClassLoader)
     val instance = mirror.reflect(this)
     scribe.info(s"Symbol: ${instance.symbol}")
@@ -45,7 +45,7 @@ trait UberTermModule extends Communication {
       }
     }.toList
     ModuleHelp(commands)
-  }
+  }*/
 }
 
 object UberTermModule {

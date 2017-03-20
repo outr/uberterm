@@ -24,12 +24,12 @@ trait ServerUberTermCommunication extends UberTermCommunication {
 
   def registerModule(module: UberTermModule): Unit = synchronized {
     interpreter.bind(module.prefix, module)
-    registerCommand(s"${module.prefix}.help", () => moduleHelp(module))
+//    registerCommand(s"${module.prefix}.help", () => moduleHelp(module))
   }
 
-  private def moduleHelp(module: UberTermModule): Unit = {
-    showModuleHelp(module.help())
-  }
+//  private def moduleHelp(module: UberTermModule): Unit = {
+//    showModuleHelp(module.help())
+//  }
 
   override def executeCommand(command: String): Future[CommandResult] = Future {
     try {

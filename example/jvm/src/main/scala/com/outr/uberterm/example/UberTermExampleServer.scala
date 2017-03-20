@@ -15,8 +15,9 @@ class UberTermExampleServer(override val templateDirectory: File) extends Undert
 }
 
 object UberTermExampleServer {
+  lazy val server = new UberTermExampleServer(new File("../../content"))
+
   def main(args: Array[String]): Unit = {
-    val server = new UberTermExampleServer(new File("../../content"))
     server.start()
   }
 }
