@@ -11,7 +11,7 @@ resolvers in ThisBuild ++= Seq(
 )
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation", "-feature", "-encoding", "utf8")
 
-val youiVersion = "0.2.3-SNAPSHOT"
+val youiVersion = "0.2.3"
 
 lazy val root = project.in(file("."))
   .aggregate(apiJVM, apiJS, terminalJVM, terminalJS)
