@@ -10,12 +10,16 @@ trait ServerUberTermCommunication extends UberTermCommunication {
 
   private var commands = Map.empty[String, () => Unit]
 
-  registerCommand("help", () => showHelp(UberTermModule.all().map(m => ModuleInfo(m.prefix, m.name, m.description))))
-  UberTermModule.all.foreach { module =>
-    registerModule(module)
-  }
-  UberTermModule.registered.attach { module =>
-    registerModule(module)
+  private var initialized: Boolean = false
+
+  def init(): Unit = {
+    registerCommand("help", () => showHelp(UberTermModule.all().map(m => ModuleInfo(m.prefix, m.name, m.description))))
+    UberTermModule.all.foreach { module =>
+      registerModule(module)
+    }
+    UberTermModule.registered.attach { module =>
+      registerModule(module)
+    }
   }
 
   def registerCommand(name: String, function: () => Unit): Unit = synchronized {
@@ -32,6 +36,14 @@ trait ServerUberTermCommunication extends UberTermCommunication {
 //  }
 
   override def executeCommand(command: String): Future[CommandResult] = Future {
+    // Initialize on the first command
+    ServerUberTermCommunication.this.synchronized {
+      if (!initialized) {
+        init()
+        initialized = true
+      }
+    }
+
     try {
       val resultString = commands.get(command) match {
         case Some(function) => {
