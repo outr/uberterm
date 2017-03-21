@@ -11,6 +11,8 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object UberTermScreen extends Screen {
+  var title: String = "UberTerm"
+
   val results = new Container {
     layoutManager := Some(new GridLayout(columns = 1, verticalPadding = 5.0))
     overflow := Overflow.Hidden
@@ -40,7 +42,7 @@ object UberTermScreen extends Screen {
     dom.oneByTag[html.Head]("head").appendChild(style)
 
     ui.init()
-    ui.title := "UberTerm"
+    ui.title := title
     ui.backgroundColor := ColorScheme.base3
 
     ui.children += results

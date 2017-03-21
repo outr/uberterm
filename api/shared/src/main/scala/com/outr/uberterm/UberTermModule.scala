@@ -11,7 +11,7 @@ trait UberTermModule extends Communication {
   def name: String
   def description: String
 
-  UberTermModule.register(this)
+//  UberTermModule.register(this)
 
   /*private[uberterm] def help(): ModuleHelp = {
     val mirror = ru.runtimeMirror(getClass.getClassLoader)
@@ -49,15 +49,15 @@ trait UberTermModule extends Communication {
 }
 
 object UberTermModule {
-  val registered: Channel[UberTermModule] = Channel[UberTermModule]
-  val all: Var[Set[UberTermModule]] = Var[Set[UberTermModule]](Set.empty)
-
-  def byPrefix(prefix: String): Option[UberTermModule] = all().find(_.prefix == prefix)
-
-  def register(module: UberTermModule): Unit = synchronized {
-    all.setStatic(all() + module)
-    registered := module
-  }
+//  val registered: Channel[UberTermModule] = Channel[UberTermModule]
+//  val all: Var[Set[UberTermModule]] = Var[Set[UberTermModule]](Set.empty)
+//
+//  def byPrefix(prefix: String): Option[UberTermModule] = all().find(_.prefix == prefix)
+//
+//  def register(module: UberTermModule): Unit = synchronized {
+//    all.setStatic(all() + module)
+//    registered := module
+//  }
 }
 
 case class ModuleHelp(commands: List[CommandHelp])
