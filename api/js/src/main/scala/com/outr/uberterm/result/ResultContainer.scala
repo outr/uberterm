@@ -8,7 +8,7 @@ import io.youi.hypertext.style.Overflow
 
 class ResultContainer extends Container {
   border.radius := 5.0
-  border.width := Some(2.0)
+  border.size := Some(2.0)
   border.color := Some(ColorScheme.base1)
   border.style := Some(BorderStyle.Solid)
 

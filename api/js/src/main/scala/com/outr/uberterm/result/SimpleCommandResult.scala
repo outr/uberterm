@@ -41,7 +41,7 @@ class SimpleCommandResult(command: String, result: String, error: Boolean) exten
     font.family := "fixed"
 
     position.left := resultHeading.position.right + 10.0
-    position.middle := resultHeading.position.middle
+    position.top := resultHeading.position.top
   }
 
   size.height := resultLabel.position.bottom + 10.0

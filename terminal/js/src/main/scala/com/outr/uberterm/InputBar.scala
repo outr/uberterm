@@ -24,7 +24,7 @@ object InputBar extends Container {
   input.font.size := 24.0
   input.font.family := "sans-serif"
   input.backgroundColor := Color.Clear
-  input.border.width := Some(0.0)
+  input.border.size := Some(0.0)
   input.event.key.up.attach { evt =>
     val key = Key.byCode(evt.keyCode)
     if (key.contains(Key.Enter) || key.contains(Key.Return)) {

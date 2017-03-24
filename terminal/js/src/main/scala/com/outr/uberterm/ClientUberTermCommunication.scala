@@ -70,7 +70,7 @@ class HelpResult(modules: Set[ModuleInfo]) extends ResultContainer {
   modules.toList.sortBy(_.prefix).foreach { module =>
     children += new Container {
       position.left := 20.0
-      border.width := Some(2.0)
+      border.size := Some(2.0)
       border.color := Some(ColorScheme.blue)
       border.style := Some(BorderStyle.Solid)
       border.top.radius := 10.0
