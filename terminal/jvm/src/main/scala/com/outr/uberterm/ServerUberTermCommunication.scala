@@ -54,7 +54,11 @@ trait ServerUberTermCommunication extends UberTermCommunication {
       }
       CommandResult(resultString, error = false)
     } catch {
-      case t: Throwable => CommandResult(Some(s"${t.getClass.getSimpleName}: ${t.getMessage}"), error = true)
+      case t: Throwable => {
+        scribe.error(s"An error occurred while executing command: $command:")
+        scribe.error(t)
+        CommandResult(Some(s"${t.getClass.getSimpleName}: ${t.getMessage}"), error = true)
+      }
     }
   }
 }
