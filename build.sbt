@@ -1,6 +1,6 @@
 name := "uberterm"
 organization in ThisBuild := "com.outr"
-version in ThisBuild := "1.0.3"
+version in ThisBuild := "1.0.4-SNAPSHOT"
 scalaVersion in ThisBuild := "2.12.1"
 crossScalaVersions in ThisBuild := List("2.12.1", "2.11.8")
 sbtVersion in ThisBuild := "0.13.13"
@@ -44,7 +44,8 @@ lazy val terminal = crossProject.in(file("terminal"))
   .jvmSettings(
     libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value,
     libraryDependencies += "org.scala-lang" % "scala-library" % scalaVersion.value,
-    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
+    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+    libraryDependencies += "com.outr" %% "arangodb-scala" % "1.0.0-SNAPSHOT"
   )
   .dependsOn(api)
 lazy val terminalJVM = terminal.jvm

@@ -2,6 +2,8 @@ package com.outr.uberterm
 
 import com.outr.uberterm.interpreter.ScalaInterpreter
 import io.youi.app.YouIApplication
+import io.youi.http.Connection
+import reactify.Var
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -32,7 +34,17 @@ trait ServerUberTermCommunication extends UberTermCommunication {
     interpreter.bind(module.prefix, module)
   }
 
+  override def loadHistory(): Future[Vector[String]] = DatabaseController.commandHistory(username).map(_.map(_.command).toVector)
+
+  /**
+    * Determines the logged in user for this connection if there is one. Used for command history logging and retention.
+    */
+  def username: Option[String] = ServerUberTermCommunication.usernameForConnection()(connection)
+
   override def executeCommand(command: String): Future[CommandResult] = Future {
+    // Add command to history
+    DatabaseController.addCommandHistory(username, command)
+
     // Initialize on the first command
     ServerUberTermCommunication.this.synchronized {
       if (!initialized) {
@@ -61,4 +73,8 @@ trait ServerUberTermCommunication extends UberTermCommunication {
       }
     }
   }
+}
+
+object ServerUberTermCommunication {
+  val usernameForConnection: Var[(Connection) => Option[String]] = Var(_ => None)
 }
