@@ -9,6 +9,7 @@ trait UberTermCommunication extends Communication {
   @client def showHelp(modules: Set[ModuleInfo]): Future[Unit]
   @client def showModuleHelp(module: ModuleHelp): Future[Unit]
   @server def loadHistory(): Future[Vector[String]]
+  @server def clearHistory(): Future[Unit]
 }
 
 case class CommandResult(output: Option[String], error: Boolean)

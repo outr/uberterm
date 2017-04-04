@@ -36,6 +36,8 @@ trait ServerUberTermCommunication extends UberTermCommunication {
 
   override def loadHistory(): Future[Vector[String]] = DatabaseController.commandHistory(username).map(_.map(_.command).toVector)
 
+  override def clearHistory(): Future[Unit] = DatabaseController.clearCommandHistory(username).map(_ => ())
+
   /**
     * Determines the logged in user for this connection if there is one. Used for command history logging and retention.
     */

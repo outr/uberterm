@@ -51,18 +51,26 @@ object InputBar extends Container {
 
   def sendCommand(): Unit = if (input.value().nonEmpty) {
     val command = input.value()
-    ClientUberTermCommunication().executeCommand(command).foreach { response =>
-      history = command +: history
-      historyPosition = -1
 
-      response.output match {
-        case Some(output) => {
-          val result = new SimpleCommandResult(command, output, response.error)
-          UberTermScreen.results.children += result
-        }
-        case None => // Will be handled by the implementation
+    command match {
+      case "clearHistory" => ClientUberTermCommunication().clearHistory().foreach { _ =>
+        history = Vector.empty
+        historyPosition = -1
+        input.value := ""
       }
-      input.value := ""
+      case _ => ClientUberTermCommunication().executeCommand(command).foreach { response =>
+        history = command +: history
+        historyPosition = -1
+
+        response.output match {
+          case Some(output) => {
+            val result = new SimpleCommandResult(command, output, response.error)
+            UberTermScreen.results.children += result
+          }
+          case None => // Will be handled by the implementation
+        }
+        input.value := ""
+      }
     }
   } else {
     scribe.info("No value!")
