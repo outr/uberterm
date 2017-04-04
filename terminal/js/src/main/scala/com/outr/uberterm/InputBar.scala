@@ -7,6 +7,9 @@ import io.youi.{Color, Key, ui}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object InputBar extends Container {
+  private var history = Vector.empty[String]
+  private var historyPosition = -1
+
   backgroundColor := ColorScheme.base1
 
   size.width := ui.size.width - 10.0
@@ -31,13 +34,27 @@ object InputBar extends Container {
       evt.preventDefault()
       evt.stopPropagation()
       sendCommand()
+    } else if (key.contains(Key.Up)) {
+      historyPosition = math.min(history.length - 1, historyPosition + 1)
+      showHistory()
+    } else if (key.contains(Key.Down)) {
+      historyPosition = math.max(-1, historyPosition - 1)
+      showHistory()
     }
   }
   children += input
 
+  ClientUberTermCommunication().loadHistory().foreach { history =>
+    this.history = history
+    historyPosition = -1
+  }
+
   def sendCommand(): Unit = if (input.value().nonEmpty) {
     val command = input.value()
     ClientUberTermCommunication().executeCommand(command).foreach { response =>
+      history = command +: history
+      historyPosition = -1
+
       response.output match {
         case Some(output) => {
           val result = new SimpleCommandResult(command, output, response.error)
@@ -49,5 +66,13 @@ object InputBar extends Container {
     }
   } else {
     scribe.info("No value!")
+  }
+
+  private def showHistory(): Unit = {
+    if (historyPosition != -1) {
+      input.value := history(historyPosition)
+    } else {
+      input.value := ""
+    }
   }
 }

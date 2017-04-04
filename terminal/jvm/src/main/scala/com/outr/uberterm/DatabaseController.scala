@@ -39,10 +39,10 @@ object DatabaseController {
     }
   }
 
-  def commandHistory(username: Option[String] = None): Future[List[CommandHistory]] = {
+  def commandHistory(username: Option[String] = None, limit: Int = 50): Future[List[CommandHistory]] = {
     val query = username match {
-      case Some(u) => aql"FOR command IN commandHistory FILTER command.username == $u SORT command.timestamp DESC RETURN command"
-      case None => aql"FOR command IN commandHistory SORT command.timestamp DESC RETURN command"
+      case Some(u) => aql"FOR command IN commandHistory FILTER command.username == $u SORT command.timestamp DESC LIMIT $limit RETURN command"
+      case None => aql"FOR command IN commandHistory SORT command.timestamp DESC LIMIT $limit RETURN command"
     }
     db.cursor[CommandHistory](query).map { result =>
       result.result
