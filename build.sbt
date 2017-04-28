@@ -1,6 +1,6 @@
 name := "uberterm"
 organization in ThisBuild := "com.outr"
-version in ThisBuild := "1.0.5-SNAPSHOT"
+version in ThisBuild := "1.0.5"
 scalaVersion in ThisBuild := "2.12.1"
 crossScalaVersions in ThisBuild := List("2.12.1", "2.11.8")
 resolvers in ThisBuild ++= Seq(
