@@ -2,8 +2,8 @@ package com.outr.uberterm
 
 import io.youi.app.screen.Screen
 import io.youi.hypertext.Container
+import io.youi.hypertext.layout.GridLayout
 import io.youi.hypertext.style.Overflow
-import io.youi.layout.{GridLayout, VerticalBoxLayout}
 import io.youi.{dom, ui}
 import org.scalajs.dom._
 

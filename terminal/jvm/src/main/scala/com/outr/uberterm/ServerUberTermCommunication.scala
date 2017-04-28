@@ -16,6 +16,8 @@ trait ServerUberTermCommunication extends UberTermCommunication {
   private var initialized: Boolean = false
 
   def init(): Unit = {
+    DatabaseController.init()
+
     val modules = YouIApplication().connectivityEntries().flatMap(_.communicationManagers.flatMap(_.byConnection(connection)).collect {
       case module: UberTermModule => {
         registerModule(module)

@@ -2,8 +2,8 @@ package com.outr.uberterm
 
 import com.outr.uberterm.result.ResultContainer
 import io.youi.hypertext.border.BorderStyle
+import io.youi.hypertext.layout.{GridLayout, VerticalBoxLayout}
 import io.youi.hypertext.{Container, Label}
-import io.youi.layout.{GridLayout, VerticalBoxLayout}
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global

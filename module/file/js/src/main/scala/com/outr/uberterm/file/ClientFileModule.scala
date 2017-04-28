@@ -2,8 +2,8 @@ package com.outr.uberterm.file
 
 import com.outr.uberterm.{ColorScheme, UberTerm}
 import com.outr.uberterm.result.ResultContainer
+import io.youi.hypertext.layout.{FlowLayout, VerticalBoxLayout}
 import io.youi.hypertext.{Container, Label}
-import io.youi.layout.{FlowLayout, VerticalBoxLayout}
 import reactify._
 
 import scala.concurrent.Future
