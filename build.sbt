@@ -10,8 +10,8 @@ resolvers in ThisBuild ++= Seq(
 )
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation", "-feature", "-encoding", "utf8")
 
-val youiVersion = "0.3.1"
-val arangoDBVersion = "0.4.0-SNAPSHOT"
+val youiVersion = "0.4.0-SNAPSHOT"
+val arangoDBVersion = "0.5.0-SNAPSHOT"
 
 lazy val root = project.in(file("."))
   .aggregate(apiJVM, apiJS, terminalJVM, terminalJS)

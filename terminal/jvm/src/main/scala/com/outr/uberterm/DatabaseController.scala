@@ -10,7 +10,7 @@ import io.circe.generic.auto._
 
 object DatabaseController {
   private lazy val arango: Arango = new Arango()
-  private lazy val session: ArangoSession = Await.result(arango.auth(), 15.seconds)
+  private lazy val session: ArangoSession = Await.result(arango.session(), 15.seconds)
   private lazy val db: ArangoDB = session.db("_system")
   private lazy val commandHistory: ArangoCollection = db.collection("commandHistory")
 
