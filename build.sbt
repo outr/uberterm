@@ -1,6 +1,6 @@
 name := "uberterm"
 organization in ThisBuild := "com.outr"
-version in ThisBuild := "1.0.7"
+version in ThisBuild := "1.0.8"
 scalaVersion in ThisBuild := "2.12.2"
 crossScalaVersions in ThisBuild := List("2.12.2", "2.11.11")
 resolvers in ThisBuild ++= Seq(
@@ -10,8 +10,8 @@ resolvers in ThisBuild ++= Seq(
 )
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation", "-feature", "-encoding", "utf8")
 
-val youiVersion = "0.3.4"
-val arangoDBVersion = "0.5.2"
+val youiVersion = "0.4.0"
+val scarangoVersion = "0.5.2"
 
 lazy val root = project.in(file("."))
   .aggregate(apiJVM, apiJS, terminalJVM, terminalJS)
@@ -45,7 +45,7 @@ lazy val terminal = crossProject.in(file("terminal"))
     libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value,
     libraryDependencies += "org.scala-lang" % "scala-library" % scalaVersion.value,
     libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-    libraryDependencies += "com.outr" %% "scarango-driver" % arangoDBVersion
+    libraryDependencies += "com.outr" %% "scarango-driver" % scarangoVersion
   )
   .dependsOn(api)
 lazy val terminalJVM = terminal.jvm
