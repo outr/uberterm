@@ -1,6 +1,6 @@
 name := "uberterm"
 organization in ThisBuild := "com.outr"
-version in ThisBuild := "1.0.8"
+version in ThisBuild := "1.0.10-SNAPSHOT"
 scalaVersion in ThisBuild := "2.12.2"
 crossScalaVersions in ThisBuild := List("2.12.2", "2.11.11")
 resolvers in ThisBuild ++= Seq(
@@ -10,8 +10,8 @@ resolvers in ThisBuild ++= Seq(
 )
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation", "-feature", "-encoding", "utf8")
 
-val youiVersion = "0.4.0"
-val scarangoVersion = "0.5.2"
+val youiVersion = "0.4.1"
+val scarangoVersion = "0.6.0"
 
 lazy val root = project.in(file("."))
   .aggregate(apiJVM, apiJS, terminalJVM, terminalJS)

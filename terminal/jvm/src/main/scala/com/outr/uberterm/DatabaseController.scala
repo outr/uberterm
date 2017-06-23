@@ -11,7 +11,7 @@ import io.circe.generic.auto._
 object DatabaseController {
   private lazy val arango: Arango = new Arango()
   private lazy val session: ArangoSession = Await.result(arango.session(), 15.seconds)
-  private lazy val db: ArangoDB = session.db("_system")
+  private lazy val db: ArangoDB = session.db()
   private lazy val commandHistory: ArangoCollection = db.collection("commandHistory")
 
   private lazy val initialization: Future[Unit] = commandHistory.exists().flatMap {
@@ -25,11 +25,11 @@ object DatabaseController {
 
   def dispose(): Unit = arango.dispose()
 
-  def addCommandHistory(username: Option[String], command: String): Future[Unit] = {
+  def addCommandHistory(username: Option[String], command: String): Future[Unit] = initialization.flatMap { _ =>
     commandHistory.document.create(CommandHistory(username, command)).map(_ => ())
   }
 
-  def clearCommandHistory(username: Option[String]): Future[List[CommandHistory]] = {
+  def clearCommandHistory(username: Option[String]): Future[List[CommandHistory]] = initialization.flatMap { _ =>
     val query = username match {
       case Some(u) => aql"FOR command IN commandHistory FILTER command.username == $u REMOVE command in commandHistory RETURN command"
       case None => aql"FOR command IN commandHistory REMOVE command in commandHistory RETURN command"
@@ -39,7 +39,7 @@ object DatabaseController {
     }
   }
 
-  def commandHistory(username: Option[String] = None, limit: Int = 50): Future[List[CommandHistory]] = {
+  def commandHistory(username: Option[String] = None, limit: Int = 50): Future[List[CommandHistory]] = initialization.flatMap { _ =>
     val query = username match {
       case Some(u) => aql"FOR command IN commandHistory FILTER command.username == $u SORT command.timestamp DESC LIMIT $limit RETURN command"
       case None => aql"FOR command IN commandHistory SORT command.timestamp DESC LIMIT $limit RETURN command"
